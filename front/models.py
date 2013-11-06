@@ -11,10 +11,11 @@ class Client(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
     cellnum = models.CharField(max_length=10)
     method = models.CharField(max_length=9,
-                                choices=METHODS_CHOICES)
+                              choices=METHODS_CHOICES,
+                              default="oneapi")
 
     def __unicode__(self):
-        return "<client( cellnum:'%s' method:'%s' )>" % (self.cellnum, self.method)
+        return u"%s" % self.cellnum
 
 class Transaction(models.Model):
     created = models.DateTimeField(auto_now_add=True)
