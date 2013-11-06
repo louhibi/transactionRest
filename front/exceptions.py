@@ -1,5 +1,8 @@
 from rest_framework.exceptions import APIException
 
 class FailedTranasction(APIException):
-    detail = "Failed transaction"
-    status_code = 601
+    d = {"descrption": "Carrier not supported",
+         "status":"FAILED"
+        }
+    detail = d
+    status_code = 501

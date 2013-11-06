@@ -59,14 +59,10 @@ class TransactionAddSerializer(serializers.ModelSerializer):
         Check the number well formated.
         """
         log.debug("in validate_client")
-        log.debug(attrs[source])
-        attrs[source] = clean_number(attrs[source])
-        log.debug(attrs[source])
-        if not is_valid_number(attrs[source]):
+        if not is_valid_number(clean_number(attrs[source])):
             raise serializers.ValidationError("cellnum is not valid")
         else:
             attrs[source], created = Client.objects.get_or_create(cellnum=attrs[source])
-        log.debug(attrs[source])
         return attrs
 
     def validate_amount(self, attrs, source):
