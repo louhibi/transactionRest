@@ -14,7 +14,7 @@ class Client(models.Model):
                                 choices=METHODS_CHOICES)
 
     def __unicode__(self):
-        return "<client: cellnum'%s' method'%s' >" % (self.cellnum, self.method)
+        return "<client( cellnum:'%s' method:'%s' )>" % (self.cellnum, self.method)
 
 class Transaction(models.Model):
     created = models.DateTimeField(auto_now_add=True)

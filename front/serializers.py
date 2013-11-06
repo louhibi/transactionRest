@@ -43,7 +43,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         super(serializers.ModelSerializer, self).__init__(*args, **kwargs)
 
 class TransactionAddSerializer(serializers.ModelSerializer):
-    client = WritableClient('client')
+    client = serializers.WritableField()
     user = serializers.Field(source='user.username')
 
     class Meta:
@@ -76,17 +76,16 @@ class TransactionAddSerializer(serializers.ModelSerializer):
         log.debug("in validate_amount")
         if not 0< attrs[source]<= 50:
             raise serializers.ValidationError("amount is not valid, amount should be between 0 (not included) and 50")
-        attrs[source], created = Client.objects.get_or_create(cellnum=attrs[source])
         return attrs
 
-    # def validate(self, attrs):
-    #     """
-    #     Do the transaction with the carrier
-    #     """
-    #     log.debug("the value of attrs is : %s" % str(attrs))
-    #     # if attrs["cellnum"] == "5147777777":
-    #     #     raise FailedTranasction("cellnum is prepaid")
-    #     return attrs
+    def validate(self, attrs):
+        """
+        Do the transaction with the carrier
+        """
+        log.debug("the value of attrs is : %s" % str(attrs))
+        if attrs["client"].cellnum == "5147777777":
+            raise FailedTranasction("cellnum is prepaid")
+        return attrs
 
 class UserSerializer(serializers.ModelSerializer):
     transactions = serializers.PrimaryKeyRelatedField(many=True)
